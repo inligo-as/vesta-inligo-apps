@@ -42,6 +42,7 @@
     <form action="index.php" method="post">
         <h1><?= __("Restore a backup") ?></h1>
 
+        <input type="text" name="server" required/>
         <input type="date" name="date" required />
         <input type="time" name="time" />
         <br><br>

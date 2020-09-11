@@ -1,0 +1,14 @@
+#!/bin/bash
+
+source "/usr/local/vesta/plugins/vesta-inligo-apps/func/backups.sh"
+
+user="$1"
+date="$2"
+time="$3"
+
+if [[ ! "$user" || ! "$date" ]]; then
+    echo "Invalid arguments"
+    echo "Ex: v-inligo-restore-backup <user> <date> [time]"
+    exit 1
+fi
+
