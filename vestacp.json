@@ -1,7 +1,7 @@
 {
   "name": "vesta-inligo-apps",
   "description": "Install web applications like wordpress with one click.",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "min-vesta": "0.9.8",
   "repository": "https://github.com/inligo-as/vesta-inligo-apps",
   "homepage": "https://github.com/inligo-as/vesta-inligo-apps#readme",
