@@ -54,10 +54,9 @@ fclose($f);
     <form action="index.php" method="post">
         <h1><?= __("Restore a backup") ?></h1>
 
-        <input type="text" name="server" value="<?php echo $server_name ?>" required/>
-        <input type="date" name="date" required />
-        <input type="time" name="time" />
-        <br><br>
+        <input type="text" name="server" value="<?php echo $server_name ?>" required/><br><br>
+        <input type="date" name="date" required /><br><br>
+        <input type="time" name="time" /><br><br>
 
         <select name="user" class="vst-list" required>
             <option value=""><?= __("Select a user") ?></option>

@@ -5,6 +5,8 @@ function save_server_name($server) {
     $f = fopen($server_name_path, 'w');
     fwrite($f, $server);
     fclose($f);
+
+    echo "Saved server name: $server";
 }
 
 // Tab name
