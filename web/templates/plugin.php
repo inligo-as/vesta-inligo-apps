@@ -1,7 +1,7 @@
 <?php if (!class_exists('Vesta')) die('Vesta is not defined.'); ?>
 
-<!-- Install app -->
 <div class="l-center units vestacp-web-apps">
+    <!-- Install app -->
     <form action="index.php" method="post">
         <h1><?= __("Install a web-app") ?></h1>
 
@@ -37,10 +37,8 @@
         <input type="hidden" name="action" value="install" />
         <button class="button confirm" type="submit"><?= __("Install") ?></button>
     </form>
-</div>
 
-<!-- Restore backup -->
-<div class="l-center units vestacp-web-apps">
+    <!-- Restore backup --> 
     <form action="index.php" method="post">
         <h1><?= __("Restore a backup") ?></h1>
 
