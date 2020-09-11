@@ -61,6 +61,6 @@
 
         <input type="hidden" name="action" value="backup" />
         <input type="hidden" name="sub_action" value="restore" />
-        <button class="button confirm" type="submit"><?= __("Roll back") ?></button>
+        <button class="button confirm" type="submit"><?= __("Restore") ?></button>
     </form>
 </div>

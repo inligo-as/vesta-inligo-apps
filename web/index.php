@@ -24,7 +24,7 @@ if (isset($_POST['action']) && $_POST['action'] == "install"
     Vesta::render_cmd_output($output, __("Installing") . " $app", $_SERVER['REQUEST_URI']);
 
 } else if(isset($_POST['action']) && $_POST['action'] == "backup"
-    && isset($_POST['sub_action']) && $_POST['action'] == "restore"
+    && isset($_POST['sub_action']) && $_POST['sub_action'] == "restore"
     && isset($_POST['user']) && !empty($_POST['user'])
     && isset($_POST['date']) && !empty($_POST['date'])
 ) {
