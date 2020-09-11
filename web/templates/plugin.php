@@ -5,7 +5,7 @@ if (!class_exists('Vesta')) die('Vesta is not defined.');
 // Read server name
 $server_name = '';
 $server_name_path = '/usr/local/vesta/plugins/vesta-inligo-apps/plugin-data/server-name.txt';
-$f = fopen($server_name_path, 'rw');
+$f = fopen($server_name_path, 'r+');
 $_server_name = fread($f, 200);
 if ($_server_name && count($_server_name) > 3) $server_name = $_server_name;
 fclose($f);
@@ -20,7 +20,6 @@ fclose($f);
         <select name="app" class="vst-list" required>
             <option value=""><?= __("Select an app") ?></option>
             <option value="wordpress">Wordpress</option>
-            <!-- <option value="moodle">Moodle</option> -->
         </select>
         <br><br>
 
@@ -54,7 +53,7 @@ fclose($f);
     <form action="index.php" method="post">
         <h1><?= __("Restore a backup") ?></h1>
 
-        <input type="text" name="server" value="<?php echo $server_name ?>" required/><br><br>
+        <input type="text" name="server" placeholder="Server name" value="<?php echo $server_name ?>" required/><br><br>
         <input type="date" name="date" required /><br><br>
         <input type="time" name="time" /><br><br>
 
