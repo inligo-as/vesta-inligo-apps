@@ -15,7 +15,7 @@ if (isset($_POST['action']) && $_POST['action'] == "install"
     $user_name = trim($web_parts[0]);
     $web_domain = trim($web_parts[1]);
 
-    if ($user == 'admin' || $user == $user_name) {
+    if ($user == 'admin' || $user === $user_name) {
         $output = Vesta::exec('v-install-web-app', $app, $user_name, $web_domain);
     } else {
         $output = __("You are not allowed to perform this action");

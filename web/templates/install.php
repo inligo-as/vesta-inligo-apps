@@ -1,4 +1,4 @@
-<?php if (!class_exists('Vesta')) exit; ?>
+<?php if (!class_exists('Vesta')) die('Vesta is not defined.'); ?>
 
 <div class="l-center units vestacp-web-apps">
 
