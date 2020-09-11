@@ -42,8 +42,8 @@
     <form action="index.php" method="post">
         <h1><?= __("Restore a backup") ?></h1>
 
-        <input type="text" name="date" placeholder="Write date on format: YYYY-MM-DD" required />
-        <input type="text" name="time" placeholder="Write time on format: HH-MM-SS" />
+        <input type="date" name="date" required />
+        <input type="time" name="time" />
         <br><br>
 
         <select name="user" class="vst-list" required>
@@ -61,6 +61,6 @@
 
         <input type="hidden" name="action" value="backup" />
         <input type="hidden" name="sub_action" value="restore" />
-        <button class="button confirm" type="submit"><?= __("Install") ?></button>
+        <button class="button confirm" type="submit"><?= __("Roll back") ?></button>
     </form>
 </div>

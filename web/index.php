@@ -33,7 +33,7 @@ if (isset($_POST['action']) && $_POST['action'] == "install"
     $user = trim($_POST['user']);
 
     if ($user == 'admin') {
-        //$output = Vesta::exec('v-restore-remote', $app, $user_name, $web_domain);
+        $output = Vesta::exec('echo', $date, $time, $user);
     } else {
         $output = __("You are not allowed to perform this action");
     }
