@@ -3,7 +3,7 @@
 <div class="l-center units vestacp-web-apps">
 
 <form action="index.php" method="post">
-    <h1><?= __("Web Apps") ?></h1>
+    <h1><?= __("Install a web-app") ?></h1>
 
     <select name="app" class="vst-list" required>
         <option value=""><?= __("Select an app") ?></option>
