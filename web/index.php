@@ -23,7 +23,8 @@ if (isset($_POST['action']) && $_POST['action'] == "install"
 
     Vesta::render_cmd_output($output, __("Installing") . " $app", $_SERVER['REQUEST_URI']);
 
-} else if(isset($_POST['action']) && $_POST['action'] == "restore"
+} else if(isset($_POST['action']) && $_POST['action'] == "backup"
+    && isset($_POST['sub_action']) && $_POST['action'] == "restore"
     && isset($_POST['user']) && !empty($_POST['user'])
     && isset($_POST['date']) && !empty($_POST['date'])
 ) {
@@ -31,7 +32,7 @@ if (isset($_POST['action']) && $_POST['action'] == "install"
     $time = trim($_POST['time']);
     $user = trim($_POST['user']);
 
-    if ($user == 'admin' || $user === $user_name) {
+    if ($user == 'admin') {
         //$output = Vesta::exec('v-restore-remote', $app, $user_name, $web_domain);
     } else {
         $output = __("You are not allowed to perform this action");
@@ -39,6 +40,5 @@ if (isset($_POST['action']) && $_POST['action'] == "install"
 
     Vesta::render_cmd_output($output, __("Restoring") . " $user", $_SERVER['REQUEST_URI']);
 } else {
-    Vesta::render("/templates/install.php", ['plugin' => 'vesta-inligo-apps', 'data' => $data]);
-    Vesta::render("/templates/backups.php", ['plugin' => 'vesta-inligo-apps', 'data' => $data]);
+    Vesta::render("/templates/plugin.php", ['plugin' => 'vesta-inligo-apps', 'data' => $data]);
 }
