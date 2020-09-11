@@ -1,5 +1,12 @@
 <?php
 
+function save_server_name($server) {
+    $server_name_path = '/usr/local/vesta/plugins/vesta-inligo-apps/plugin-data/server-name.txt';
+    $f = fopen($server_name_path, 'w');
+    fwrite($f, $server);
+    fclose($f);
+}
+
 // Tab name
 $TAB = "Web Apps";
 
@@ -27,13 +34,17 @@ if (isset($_POST['action']) && $_POST['action'] == "install"
     && isset($_POST['sub_action']) && $_POST['sub_action'] == "restore"
     && isset($_POST['user']) && !empty($_POST['user'])
     && isset($_POST['date']) && !empty($_POST['date'])
+    && isset($_POST['server']) && !empty($_POST['server'])
 ) {
     $date = trim($_POST['date']);
     $time = trim($_POST['time']);
     $user = trim($_POST['user']);
+    $server = trim($_POST['server']);
+
+    save_server_name($server);
 
     if ($user == 'admin') {
-        $output = Vesta::exec('echo', $date, $time, $user);
+        $output = Vesta::exec('echo', $server, $user, $date, $time);
     } else {
         $output = __("You are not allowed to perform this action");
     }

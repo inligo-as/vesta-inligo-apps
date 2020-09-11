@@ -1,4 +1,16 @@
-<?php if (!class_exists('Vesta')) die('Vesta is not defined.'); ?>
+<?php
+    
+if (!class_exists('Vesta')) die('Vesta is not defined.'); 
+
+// Read server name
+$server_name = '';
+$server_name_path = '/usr/local/vesta/plugins/vesta-inligo-apps/plugin-data/server-name.txt';
+$f = fopen($server_name_path, 'rw');
+$_server_name = fread($f, 200);
+if ($_server_name && count($_server_name) > 3) $server_name = $_server_name;
+fclose($f);
+
+?>
 
 <div class="l-center units vestacp-web-apps">
     <!-- Install app -->
@@ -42,7 +54,7 @@
     <form action="index.php" method="post">
         <h1><?= __("Restore a backup") ?></h1>
 
-        <input type="text" name="server" required/>
+        <input type="text" name="server" value="<?php echo $server_name ?>" required/>
         <input type="date" name="date" required />
         <input type="time" name="time" />
         <br><br>
