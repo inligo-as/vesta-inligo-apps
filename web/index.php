@@ -40,4 +40,5 @@ if (isset($_POST['action']) && $_POST['action'] == "install"
     Vesta::render_cmd_output($output, __("Restoring") . " $user", $_SERVER['REQUEST_URI']);
 } else {
     Vesta::render("/templates/install.php", ['plugin' => 'vesta-inligo-apps', 'data' => $data]);
+    Vesta::render("/templates/backups.php", ['plugin' => 'vesta-inligo-apps', 'data' => $data]);
 }
