@@ -8,7 +8,7 @@
     <select name="app" class="vst-list" required>
         <option value=""><?= __("Select an app") ?></option>
         <option value="wordpress">Wordpress</option>
-        <option value="moodle">Moodle</option>
+        <!-- <option value="moodle">Moodle</option> -->
     </select>
     <br><br>
 

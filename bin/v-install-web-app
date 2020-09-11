@@ -9,7 +9,7 @@ web_domain="$3"
 if [[ ! "$app" || ! "$user_name" || ! "$web_domain" ]]; then
     echo "Invalid arguments"
     echo "Ex: v-install-web-app <app> <user> <web_domain>"
-    echo "App list: wordpress, moodle"
+    echo "App list: wordpress"
     exit 1
 fi
 
@@ -21,8 +21,8 @@ fi
 
 if [[ "$app" == "wordpress" ]]; then
     wordpress "$user_name" "$web_domain"
-elif [[ "$app" == "moodle" ]]; then
-    moodle "$user_name" "$web_domain"
+#elif [[ "$app" == "moodle" ]]; then
+#    moodle "$user_name" "$web_domain"
 else
     echo "Invalid app"
     exit 1
