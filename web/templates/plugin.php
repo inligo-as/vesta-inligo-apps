@@ -6,9 +6,16 @@ if (!class_exists('Vesta')) die('Vesta is not defined.');
 $server_name = '';
 $server_name_path = '/usr/local/vesta/plugins/vesta-inligo-apps/plugin-data/server-name.txt';
 $f = fopen($server_name_path, 'r+');
-$_server_name = fread($f, 200);
-if ($_server_name && count($_server_name) > 3) $server_name = $_server_name;
-fclose($f);
+
+if ($f) {
+    $_server_name = fread($f, 200);
+    
+    if ($_server_name && count($_server_name) > 3) $server_name = $_server_name;
+    
+    fclose($f);
+} else {
+    echo "Failed to open server-name.txt";
+}
 
 ?>
 
