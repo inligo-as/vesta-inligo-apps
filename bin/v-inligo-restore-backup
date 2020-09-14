@@ -15,27 +15,47 @@ fi
 
 echo "Executing: v-inligo-restore-backup: $server $user $date $time"
 
-S3_PATH=$(backup_get_s3_path $server $user $date $time)
+BACKUP_PATH=$(get_backup_path $server $user $date $time)
 
-if [[ -z $S3_PATH ]]; then
+if [[ -z $BACKUP_PATH ]]; then
     echo "Error: Did not find backup in S3 bucket."
     exit 1
 fi
 
-echo "Found $S3_PATH"
+echo "Found $BACKUP_PATH"
 
-rm -rf /backup/tmp
-mkdir -p /backup/tmp
-aws s3 cp $S3_PATH /backup/tmp
+if [[ "$BACKUP_PATH" == "/backup/"* ]]; then
+    echo "Backup was found locally in /backup."
+    backupfile=$(ls $BACKUP_PATH | xargs -n 1 basename)
+else
+    echo "Backup was found in S3 bucket."
 
-echo "Restore user: v-restore-user $user /backup/tmp/*"
+    rm -rf /backup/tmp
+    mkdir -p /backup/tmp
+    cd /backup/tmp
+    aws s3 cp $BACKUP_PATH . 2>&1
+    backupfile=$(ls | head -n 1)
 
-output=$(/usr/local/vesta/bin/v-restore-user $user /backup/tmp/* 2>&1)
+    if [[ ! -f $backupfile ]]; then
+        echo "Error Could not download file from S3."
+        exit 1
+    fi
+
+    mv $backupfile ..
+fi
+
+cd /backup
+
+echo ">> v-restore-user $user $backupfile"
+output=$(/usr/local/vesta/bin/v-restore-user $user $backupfile 2>&1)
 
 if [[ $output == *"Error"* ]]; then
-    echo "Failed to restore user ($output)."
+    echo "Failed to restore user $user ($output)."
 else
     echo $output
     echo "Successfully restored user."
-    #rm -rf /backup/tmp
+
 fi
+
+rm -f $backupfile
+rm -rf /backup/tmp
