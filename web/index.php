@@ -2,16 +2,8 @@
 
 function save_server_name($server) {
     $server_name_path = '/usr/local/vesta/plugins/vesta-inligo-apps/plugin-data/server-name.txt';
-    $f = fopen($server_name_path, 'w');
-
-    if (!$f) return false;
-
-    fwrite($f, $server);
-    fclose($f);
-
-    echo "Saved server name: $server";
-
-    return true;
+    
+    Vesta::exec("echo $server > $server_name_path");
 }
 
 // Tab name
@@ -45,15 +37,13 @@ if (isset($_POST['action']) && $_POST['action'] == "install"
 ) {
     $date = trim($_POST['date']);
     $time = trim($_POST['time']);
-    $user = trim($_POST['user']);
+    $_user = trim($_POST['user']);
     $server = trim($_POST['server']);
 
+    if ($time) $time = str_replace(':', '-', $time);
+
     if ($user == 'admin') {
-        if (!save_server_name($server)) {
-            $output = __("Failed to save server name");
-        } else {
-            $output = Vesta::exec('echo', $server, $user, $date, $time);
-        }
+        $output = Vesta::exec('v-inligo-restore-backup', $server, $_user, $date, $time);
     } else {
         $output = __("You are not allowed to perform this action");
     }

@@ -5,23 +5,18 @@ if (!class_exists('Vesta')) die('Vesta is not defined.');
 // Read server name
 $server_name = '';
 $server_name_path = '/usr/local/vesta/plugins/vesta-inligo-apps/plugin-data/server-name.txt';
-$f = fopen($server_name_path, 'r+');
 
-if ($f) {
-    $_server_name = fread($f, 200);
-    
-    if ($_server_name && count($_server_name) > 3) $server_name = $_server_name;
-    
-    fclose($f);
-} else {
-    echo "Failed to open server-name.txt";
+$output = Vesta::exec("cat $server_name_path 2>/dev/null");
+
+if ($output) {
+    $server_name = trim($output);
 }
 
 ?>
 
 <div class="l-center units vestacp-web-apps">
     <!-- Install app -->
-    <form action="index.php" method="post">
+    <form action="index.php" method="post" style="margin-bottom: 30px;">
         <h1><?= __("Install a web-app") ?></h1>
 
         <select name="app" class="vst-list" required>
@@ -56,14 +51,31 @@ if ($f) {
         <button class="button confirm" type="submit"><?= __("Install") ?></button>
     </form>
 
+    <hr>
+
     <!-- Restore backup --> 
     <form action="index.php" method="post">
         <h1><?= __("Restore a backup") ?></h1>
 
-        <input type="text" name="server" placeholder="Server name" value="<?php echo $server_name ?>" required/><br><br>
-        <input type="date" name="date" required /><br><br>
-        <input type="time" name="time" /><br><br>
+        <label for="server">
+            Server: (must be current server)<br>
+            <input type="text" id="server" name="server" value="<?php echo $server_name ?>" required/>
+        </label>
+        <br><br>
 
+        <label for="date">
+            Date:<br>
+            <input type="date" id="date" name="date" required />
+        </label>
+        <br><br>
+
+        <label for="time">
+            Time: (optional)<br>
+            <input type="time" id="time" name="time" />
+        </label>
+
+        <br><br>
+        
         <select name="user" class="vst-list" required>
             <option value=""><?= __("Select a user") ?></option>
             <?php

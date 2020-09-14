@@ -1,16 +1,41 @@
 #!/bin/bash
 
-#source "/usr/local/vesta/plugins/vesta-inligo-apps/func/backups.sh"
+source "/usr/local/vesta/plugins/vesta-inligo-apps/func/backups.sh"
 
-server_name="$1"
+server="$1"
 user="$2"
 date="$3"
 time="$4"
 
 if [[ ! "$user" || ! "$date" ]]; then
     echo "Invalid arguments"
-    echo "Ex: v-inligo-restore-backup <server_name> <user> <date> [time]"
+    echo "Ex: v-inligo-restore-backup <server> <user> <date> [time]"
     exit 1
 fi
 
-echo "v-inligo-restore-backup: $server_name $user $date $time"
+echo "Executing: v-inligo-restore-backup: $server $user $date $time"
+
+S3_PATH=$(backup_get_s3_path $server $user $date $time)
+
+if [[ -z $S3_PATH ]]; then
+    echo "Error: Did not find backup in S3 bucket."
+    exit 1
+fi
+
+echo "Found $S3_PATH"
+
+rm -rf /backup/tmp
+mkdir -p /backup/tmp
+aws s3 cp $S3_PATH /backup/tmp
+
+echo "Restore user: v-restore-user $user /backup/tmp/*"
+
+output=$(/usr/local/vesta/bin/v-restore-user $user /backup/tmp/* 2>&1)
+
+if [[ $output == *"Error"* ]]; then
+    echo "Failed to restore user ($output)."
+else
+    echo $output
+    echo "Successfully restored user."
+    #rm -rf /backup/tmp
+fi
