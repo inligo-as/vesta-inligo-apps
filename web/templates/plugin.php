@@ -30,6 +30,8 @@ if ($output) {
             <?php
             $users = Vesta::exec("v-list-users", "json");
             ksort($users);
+            
+            $configs = [];
 
             foreach ($users as $user_name => $value) {
                 $web_domains = Vesta::exec("v-list-web-domains", $user_name, "json");
@@ -53,6 +55,45 @@ if ($output) {
 
     <hr>
 
+    <!-- Link up web domain with port --> 
+    <form action="index.php" method="post" style="margin-bottom: 30px;">
+        <h1><?= __("Set application port") ?></h1>
+        <p><em>Remember to change nginx proxy after performing this action in domain settings.</em><p>
+        
+        <select name="web_domain" class="vst-list" required>
+            <option value=""><?= __("Select a web domain") ?></option>
+            <?php
+            $users = Vesta::exec("v-list-users", "json");
+            ksort($users);
+
+            foreach ($users as $user_name => $value) {
+                $web_domains = Vesta::exec("v-list-web-domains", $user_name, "json");
+                ksort($web_domains);
+
+                foreach ($web_domains as $web_domain => $domain_data) {
+                    if ($user === 'admin') {
+                        $display_name = "$user_name - $web_domain";
+
+                        echo "<option value=\"$user_name|$web_domain\">$display_name</option>";
+                    }
+                }
+            }
+            ?>
+        </select>
+        <br><br>
+
+        <label for="port">
+            Port<br>
+            <input type="number" min="1000" max="10000" id="port" name="port" required />
+        </label>
+        <br><br>
+
+        <input type="hidden" name="action" value="set_application_port" />
+        <button class="button confirm" type="submit"><?= __("Set port") ?></button>
+    </form>
+
+    <hr>
+
     <!-- Restore backup --> 
     <form action="index.php" method="post">
         <h1><?= __("Restore a backup") ?></h1>
@@ -65,7 +106,7 @@ if ($output) {
 
         <label for="date">
             Date:<br>
-            <input type="date" id="date" name="date" required />
+            <input type="date" id="date" name="date" />
         </label>
         <br><br>
 
@@ -76,7 +117,7 @@ if ($output) {
 
         <br><br>
         
-        <select name="user" class="vst-list" required>
+        <select name="user" class="vst-list">
             <option value=""><?= __("Select a user") ?></option>
             <?php
             $users = Vesta::exec("v-list-users", "json");
