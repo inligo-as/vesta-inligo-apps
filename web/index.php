@@ -13,6 +13,7 @@ $TAB = "Web Apps";
 include($_SERVER['DOCUMENT_ROOT'] . "/inc/main.php");
 
 $session_user = $_SESSION['user'];
+$bash_user = Vesta::exec('whomi');
 
 if (isset($_POST['action']) && $_POST['action'] == "install"
     && isset($_POST['app']) && !empty($_POST['app'])
@@ -78,13 +79,13 @@ if (isset($_POST['action']) && $_POST['action'] == "install"
             $conf = "proxy_pass http://127.0.0.1:$port;";
             $output = Vesta::exec("echo '$conf' 2>&1 > $conf_file");
             
-            if ($output) $output = "Error: Failed to write to $conf_file: $output. Current user: $user ($session_user)";
+            if ($output) $output = "Error - Current user: $user ($session_user :: $bash_user) - Failed to write to $conf_file: $output";
             else $output = "Successfully saved new config to $conf_file: $conf\nChange nginx proxy now under domain settings.";
         } else {
             $output = 'Port must be a numeric value between 1000 and 10000.';
         }
     } else {
-        $output = __("Only $user_name authenticated through admin is allowed to perform this action - you are $user ($session_user).");
+        $output = __("Only $user_name authenticated through admin is allowed to perform this action - you are $user ($session_user :: $bash_user).");
     }
     
     Vesta::render_cmd_output($output, __("Set application port"), $_SERVER['REQUEST_URI']);
