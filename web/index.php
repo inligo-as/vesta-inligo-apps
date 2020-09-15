@@ -1,7 +1,5 @@
 <?php
 
-$session_user = $_SESSION['user'];
-
 function save_server_name($server) {
     $server_name_path = '/usr/local/vesta/plugins/vesta-inligo-apps/plugin-data/server-name.txt';
     
@@ -13,6 +11,8 @@ $TAB = "Web Apps";
 
 // Include vesta functions
 include($_SERVER['DOCUMENT_ROOT'] . "/inc/main.php");
+
+$session_user = $_SESSION['user'];
 
 if (isset($_POST['action']) && $_POST['action'] == "install"
     && isset($_POST['app']) && !empty($_POST['app'])
@@ -71,8 +71,9 @@ if (isset($_POST['action']) && $_POST['action'] == "install"
     $output = '';
 
     if ($user === $user_name && $session_user === 'admin') { 
-        if (is_numeric($port) && intval($port) >= 1000 && intval($port) <= 10000) {
-            $port = intval($port);
+        $port = intval($port);
+
+        if ($port >= 1000 && $port <= 10000) {
             $conf_file = "/home/$user_name/web/$web_domain/private/app.nginx.conf";
             $conf = "proxy_pass http://127.0.0.1:$port;";
             $output = Vesta::exec("echo '$conf' 2>&1 > $conf_file");
@@ -83,7 +84,7 @@ if (isset($_POST['action']) && $_POST['action'] == "install"
             $output = 'Port must be a numeric value between 1000 and 10000.';
         }
     } else {
-        $output = __("Only $user_name authenticated through admin is allowed to perform this action.");
+        $output = __("Only $user_name authenticated through admin is allowed to perform this action - you are $user ($session_user).");
     }
     
     Vesta::render_cmd_output($output, __("Set application port"), $_SERVER['REQUEST_URI']);
