@@ -13,7 +13,7 @@ $TAB = "Web Apps";
 include($_SERVER['DOCUMENT_ROOT'] . "/inc/main.php");
 
 $session_user = $_SESSION['user'];
-$bash_user = Vesta::exec('whomi');
+$bash_user = trim(Vesta::exec('whoami'));
 
 if (isset($_POST['action']) && $_POST['action'] == "install"
     && isset($_POST['app']) && !empty($_POST['app'])
@@ -77,10 +77,8 @@ if (isset($_POST['action']) && $_POST['action'] == "install"
         if ($port >= 1000 && $port <= 10000) {
             $conf_file = "/home/$user_name/web/$web_domain/private/app.nginx.conf";
             $conf = "proxy_pass http://127.0.0.1:$port;";
-            $output = Vesta::exec("echo '$conf' 2>&1 > $conf_file");
-            
-            if ($output) $output = "Error - Current user: $user ($session_user :: $bash_user) - Failed to write to $conf_file: $output";
-            else $output = "Successfully saved new config to $conf_file: $conf\nChange nginx proxy now under domain settings.";
+            exec(VESTA_CMD . "v-inligo-save-app-config $user_name $web_domain $conf", $output);
+            $output = implode('', $output);
         } else {
             $output = 'Port must be a numeric value between 1000 and 10000.';
         }
