@@ -1,9 +1,5 @@
 <?php
 
-function save_server_name($server) {    
-    exec(VESTA_CMD . "v-inligo-server-name set $server");
-}
-
 // Tab name
 $TAB = "Web Apps";
 
@@ -11,7 +7,14 @@ $TAB = "Web Apps";
 include($_SERVER['DOCUMENT_ROOT'] . "/inc/main.php");
 
 $session_user = $_SESSION['user'];
-$bash_user = trim(Vesta::exec('whoami'));
+
+function save_server_name($server) {    
+    $cmd = VESTA_CMD . "v-inligo-server-name set $server";
+    exec($cmd, $output);
+    $output = ">> $cmd <br>" . implode('<br>', $output);
+
+    return $output;
+}
 
 if (isset($_POST['action']) && $_POST['action'] == "install"
     && isset($_POST['app']) && !empty($_POST['app'])
@@ -54,8 +57,7 @@ if (isset($_POST['action']) && $_POST['action'] == "install"
 
 } else if (isset($_POST['server']) && !empty($_POST['server']) && $user === 'admin') {
     $server = trim($_POST['server']);
-    save_server_name($server);
-    $output = __("Set server name to $server.");
+    $output = save_server_name($server);
     Vesta::render_cmd_output($output, __("Setting server name"), $_SERVER['REQUEST_URI']);
 
 } else if (isset($_POST['action']) && $_POST['action'] == "set_application_port"
@@ -80,7 +82,7 @@ if (isset($_POST['action']) && $_POST['action'] == "install"
             $output = 'Port must be a numeric value between 1000 and 10000.';
         }
     } else {
-        $output = __("Only $user_name authenticated through admin is allowed to perform this action - you are $user ($session_user :: $bash_user).");
+        $output = __("Only $user_name authenticated through admin is allowed to perform this action - you are $user ($session_user).");
     }
     
     Vesta::render_cmd_output($output, __("Set application port"), $_SERVER['REQUEST_URI']);

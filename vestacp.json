@@ -1,7 +1,7 @@
 {
   "name": "vesta-inligo-apps",
   "description": "Collection of web administration tools.",
-  "version": "0.8.5",
+  "version": "0.8.6",
   "min-vesta": "0.9.8",
   "repository": "https://github.com/inligo-as/vesta-inligo-apps",
   "homepage": "https://github.com/inligo-as/vesta-inligo-apps#readme",

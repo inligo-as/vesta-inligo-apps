@@ -5,15 +5,15 @@ server_name=$2
 
 if [[ ! "$action" ]]; then
     echo "Error: Invalid arguments"
-    echo "Ex: v-inligo-server-name <get|set> [server_name]"
+    echo "Usage: v-inligo-server-name <get|set> [server_name]"
     exit 1
 fi
 
 server_name_file="/inligo-server-name.txt"
 
 if [[ "$action" == "get" ]]; then
-    cat $server_name_file
-else if [[ "$action" == "set" ]]; then
+    cat $server_name_file | awk '{printf $1}'
+elif [[ "$action" == "set" ]]; then
     if [[ ! "$server_name" ]]; then
         echo "Error: Invalid arguments"
         echo "Ex: v-inligo-server-name set <server_name>"
@@ -22,5 +22,7 @@ else if [[ "$action" == "set" ]]; then
 
     echo $server_name > $server_name_file
     echo "Successfully set server name to $server_name."
+else
+    echo "Error: Unknown command $action."
+    echo "Usage: v-inligo-server-name <get|set> [server_name]"
 fi
-

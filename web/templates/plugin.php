@@ -5,6 +5,8 @@ if (!class_exists('Vesta')) die('Vesta is not defined.');
 // Read server name
 exec(VESTA_CMD . "v-inligo-server-name get", $server_name);
 
+$server_name = implode('', $server_name);
+
 ?>
 
 <div class="l-center units vestacp-web-apps">
