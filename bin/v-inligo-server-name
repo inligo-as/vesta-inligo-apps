@@ -1,0 +1,26 @@
+#!/bin/bash
+
+action=$1
+server_name=$2
+
+if [[ ! "$action" ]]; then
+    echo "Error: Invalid arguments"
+    echo "Ex: v-inligo-server-name <get|set> [server_name]"
+    exit 1
+fi
+
+server_name_file="/inligo-server-name.txt"
+
+if [[ "$action" == "get" ]]; then
+    cat $server_name_file
+else if [[ "$action" == "set" ]]; then
+    if [[ ! "$server_name" ]]; then
+        echo "Error: Invalid arguments"
+        echo "Ex: v-inligo-server-name set <server_name>"
+        exit 1
+    fi
+
+    echo $server_name > $server_name_file
+    echo "Successfully set server name to $server_name."
+fi
+

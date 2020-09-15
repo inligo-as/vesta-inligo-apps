@@ -1,9 +1,7 @@
 <?php
 
-function save_server_name($server) {
-    $server_name_path = '/usr/local/vesta/plugins/vesta-inligo-apps/plugin-data/server-name.txt';
-    
-    Vesta::exec("echo $server > $server_name_path");
+function save_server_name($server) {    
+    exec(VESTA_CMD . "v-inligo-server-name set $server");
 }
 
 // Tab name

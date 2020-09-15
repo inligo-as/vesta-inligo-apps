@@ -3,14 +3,7 @@
 if (!class_exists('Vesta')) die('Vesta is not defined.'); 
 
 // Read server name
-$server_name = '';
-$server_name_path = '/usr/local/vesta/plugins/vesta-inligo-apps/plugin-data/server-name.txt';
-
-$output = Vesta::exec("cat $server_name_path 2>/dev/null");
-
-if ($output) {
-    $server_name = trim($output);
-}
+exec(VESTA_CMD . "v-inligo-server-name get", $server_name);
 
 ?>
 
