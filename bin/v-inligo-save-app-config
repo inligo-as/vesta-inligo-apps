@@ -1,3 +1,21 @@
 #!/bin/bash
 
-whoami
+user=$1
+domain=$2
+port=$3
+
+if [[ ! "$user" || ! "$domain" || ! "$port" ]]; then
+    echo "Error: Invalid arguments"
+    echo "Ex: v-inligo-save-app-config <user> <domain> <port>"
+    exit 1
+fi
+
+conf_file="/home/$user/web/$domain/private/app.nginx.conf";
+conf="proxy_pass http://127.0.0.1:$port;"
+
+echo "Saving config '$conf' to $conf_file"
+
+echo "$conf" > $conf_file
+
+echo "Successfully saved config."
+echo "Now go to the domain settings and change nginx proxy."

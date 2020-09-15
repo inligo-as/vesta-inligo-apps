@@ -76,9 +76,8 @@ if (isset($_POST['action']) && $_POST['action'] == "install"
 
         if ($port >= 1000 && $port <= 10000) {
             $conf_file = "/home/$user_name/web/$web_domain/private/app.nginx.conf";
-            $conf = "proxy_pass http://127.0.0.1:$port;";
-            exec(VESTA_CMD . "v-inligo-save-app-config $user_name $web_domain $conf", $output);
-            $output = implode('', $output);
+            exec(VESTA_CMD . "v-inligo-save-app-config $user_name $web_domain $port", $output);
+            $output = implode('<br>', $output);
         } else {
             $output = 'Port must be a numeric value between 1000 and 10000.';
         }
