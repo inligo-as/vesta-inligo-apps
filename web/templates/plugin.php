@@ -63,20 +63,11 @@ if ($output) {
         <select name="web_domain" class="vst-list" required>
             <option value=""><?= __("Select a web domain") ?></option>
             <?php
-            $users = Vesta::exec("v-list-users", "json");
-            ksort($users);
+            $web_domains = Vesta::exec("v-list-web-domains", $user, "json");
+            ksort($web_domains);
 
-            foreach ($users as $user_name => $value) {
-                $web_domains = Vesta::exec("v-list-web-domains", $user_name, "json");
-                ksort($web_domains);
-
-                foreach ($web_domains as $web_domain => $domain_data) {
-                    if ($user === 'admin') {
-                        $display_name = "$user_name - $web_domain";
-
-                        echo "<option value=\"$user_name|$web_domain\">$display_name</option>";
-                    }
-                }
+            foreach ($web_domains as $web_domain => $domain_data) {
+                echo "<option value=\"$user|$web_domain\">$web_domain</option>";
             }
             ?>
         </select>
