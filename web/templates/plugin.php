@@ -1,18 +1,21 @@
 <?php
-    
-if (!class_exists('Vesta')) die('Vesta is not defined.'); 
+
+if (!class_exists('Vesta')) die('Vesta is not defined.');
+
+$plugin_dir = '/usr/local/vesta/plugins/vesta-inligo-apps';
+
+include_once("$plugin_dir/web/inc/util.php");
 
 // Read server name
-exec(VESTA_CMD . "v-inligo-server-name get", $server_name);
+$server_name = sudo_vesta('v-inligo-server-name get', '');
 
-$server_name = implode('', $server_name);
+$session_user = $_SESSION['user'];
 
 ?>
 
-<div class="l-center units vestacp-web-apps">
-    <?php @include_once('/usr/local/vesta/plugins/vesta-inligo-apps/web/templates/install-app.php'); ?>
-    <hr>
-    <?php @include_once('/usr/local/vesta/plugins/vesta-inligo-apps/web/templates/nginx-port.php'); ?>
-    <hr>
-    <?php @include_once('/usr/local/vesta/plugins/vesta-inligo-apps/web/templates/backup.php'); ?>
+<div>
+    <?php if ($user === 'admin') include_once("$plugin_dir/web/templates/git.php"); ?>
+    <?php if ($user === 'admin') include_once("$plugin_dir/web/templates/install-app.php"); ?>
+    <?php if ($user === 'admin') include_once("$plugin_dir/web/templates/backup.php"); ?>
+    <?php if ($session_user === 'admin') include_once("$plugin_dir/web/templates/nginx-port.php"); ?>
 </div>

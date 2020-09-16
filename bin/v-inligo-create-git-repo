@@ -1,0 +1,64 @@
+#!/bin/bash
+
+domain="$1"
+shift
+user="$1"
+shift
+source_path="$1"
+shift
+deploy_cmd="${@}"
+
+if [[ ! "$domain" || ! "$user" || ! "$source_path" ]]; then
+    echo "Invalid arguments"
+    echo "Usage: v-inligo-create-git-repo <domain> <user> <source_path> [deploy_cmd]"
+    exit 1
+fi
+
+echo "Executing: v-inligo-create-git-repo $domain $user $source_path $deploy_cmd\n"
+
+repo_path="/home/$user/git/$domain.git"
+source_path="/home/$user/$source_path"
+
+if [[ ! -d $source_path ]]; then
+    su -c "mkdir -p $source_path && echo 'Created directory $source_path'" $user 2>&1 || (echo "Invalid path $source_path" && exit 1)
+    created_dir=true
+fi
+
+cd $source_path
+
+pwd=$(pwd)
+
+if [[ ! "$pwd" == *"$user"* ]]; then
+    echo "Error: The path $source_path is not inside the user's home directory."
+    
+    if [[ "$created_dir" == true ]]; then
+        rm -rf $source_path
+        echo "Removed $source_path."
+    fi
+
+    exit 1
+fi
+
+mkdir -p $repo_path
+cd $repo_path
+
+if [[ ! -d "$repo_path/hooks" ]]; then
+    git init --bare
+else
+    echo "Reconfiguring post-receive hook for existing repository."
+fi
+
+if [[ ! "$deploy_cmd" ]]; then
+    echo "GIT_WORK_TREE=$source_path git checkout -f && echo 'Updated code!'" > $repo_path/hooks/post-receive
+else
+    echo "GIT_WORK_TREE=$source_path git checkout -f && cd $source_path && $deploy_cmd && echo 'Updated code!'" > $repo_path/hooks/post-receive
+fi
+
+chmod +x $repo_path/hooks/post-receive
+chown -R $user:$user $repo_path
+
+echo "$repo_path/hooks/post-receive:"
+cat $repo_path/hooks/post-receive
+
+echo 
+echo "Successfully created repository ssh://${user}@${domain}${repo_path}"

@@ -13,5 +13,5 @@
 ### JetBrains
 /.idea/
 
-### Não organizados
 
+.DS_Store

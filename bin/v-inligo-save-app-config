@@ -6,7 +6,7 @@ port=$3
 
 if [[ ! "$user" || ! "$domain" || ! "$port" ]]; then
     echo "Error: Invalid arguments"
-    echo "Ex: v-inligo-save-app-config <user> <domain> <port>"
+    echo "Usage: v-inligo-save-app-config <user> <domain> <port>"
     exit 1
 fi
 

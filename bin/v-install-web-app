@@ -8,7 +8,7 @@ web_domain="$3"
 
 if [[ ! "$app" || ! "$user_name" || ! "$web_domain" ]]; then
     echo "Invalid arguments"
-    echo "Ex: v-install-web-app <app> <user> <web_domain>"
+    echo "Usage: v-install-web-app <app> <user> <web_domain>"
     echo "App list: wordpress"
     exit 1
 fi

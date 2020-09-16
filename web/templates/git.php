@@ -1,13 +1,7 @@
 <div class="units l-center vestacp-web-apps">
-    <!-- Install app -->
     <form action="index.php" method="post">
-        <h1><?= __("Install a web-app") ?></h1>
-
-        <select name="app" class="vst-list" required>
-            <option value=""><?= __("Select an app") ?></option>
-            <option value="wordpress">Wordpress</option>
-        </select>
-        <br><br>
+        <h1><?= __("Create git repository") ?></h1>
+        <p><em>Create a bare git repository with <strong>post-receive</strong> hook for a domain.</em></p>
 
         <select name="web_domain" class="vst-list" required>
             <option value=""><?= __("Select a web domain") ?></option>
@@ -32,8 +26,20 @@
             ?>
         </select>
         <br><br>
-
-        <input type="hidden" name="action" value="install" />
-        <button class="button confirm" type="submit"><?= __("Install") ?></button>
+        <label for="source_path">
+            Source path (relative from home directory):<br>
+            <input type="text" id="source_path" name="source_path" size="50" required/><br><br>
+            <strong>Wordpress</strong>: <pre>web/DOMAIN/public_html/wp-content/themes/THEME</pre>
+            <strong>Other</strong>: <pre>web/DOMAIN/app</pre>
+        </label>
+        <br>
+        <label for="deploy_cmd">
+            Deployment command: (optional)<br>
+            <input type="text"  id="deploy_cmd" name="deploy_cmd" size="50" placeholder="./deploy"/><br>
+            <em>Specify a command executed from inside SOURCE_PATH</em>
+        </label>
+        <br><br>
+        <input type="hidden" name="action" value="create_git_repo" />
+        <button class="button confirm" type="submit"><?= __("Create") ?></button>
     </form>
 </div>

@@ -9,7 +9,7 @@ time="$4"
 
 if [[ ! "$user" || ! "$date" ]]; then
     echo "Invalid arguments"
-    echo "Ex: v-inligo-restore-backup <server> <user> <date> [time]"
+    echo "Usage: v-inligo-restore-backup <server> <user> <date> [time]"
     exit 1
 fi
 
