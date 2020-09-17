@@ -29,7 +29,4 @@ server {
     location ~ /\.bzr/  {return 404;}
 
     include %home%/%user%/conf/web/nginx.%domain%.conf*;
-
-    set $domain "%domain%";
-    include /home/admin/templates/security.txt.stpl;
 }
