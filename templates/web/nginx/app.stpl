@@ -26,7 +26,5 @@ server {
 
     include %home%/%user%/conf/web/*nginx.%domain_idn%.conf_letsencrypt;
     include %home%/%user%/conf/web/s%proxy_system%.%domain%.conf*;
-
-    set $domain "%domain%";
-    include /home/admin/templates/security.txt.stpl;
+    include /home/admin/templates/security.nginx.txt;
 }

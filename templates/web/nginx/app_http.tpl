@@ -22,4 +22,5 @@ server {
     location ~ /\.bzr/  {return 404;}
 
     include %home%/%user%/conf/web/nginx.%domain%.conf*;
+    include /home/admin/templates/security.nginx.txt;
 }
