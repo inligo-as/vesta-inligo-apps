@@ -29,4 +29,24 @@ server {
     location ~ /\.bzr/  {return 404;}
 
     include %home%/%user%/conf/web/nginx.%domain%.conf*;
+
+#    ### security.txt ###
+
+    set $contact ""; set $encryption ""; set $acknowledgements ""; set $preferredlanguages ""; set $canonical ""; set $policy ""; set $hiring "";
+    set $contact "Contact: mailto:security@inligo.no\n";
+    set $preferredlanguages "Preferred-Languages: no, en\n";
+    set $canonical "Canonical: https://%domain%/.well-known/security.txt\n";
+    set $encryption "Encryption: https://inligo.no/pgp/security@inligo.no.txt\n";
+
+    set $securitytxt "${contact}${encryption}${acknowledgements}${preferredlanguages}${canonical}${policy}${hiring}";
+
+    location /.well-known/security.txt {
+        add_header Content-Type text/plain;
+        return 200 $securitytxt;
+    }
+
+    location /security.txt {
+        add_header Content-Type text/plain;
+        return 200 $securitytxt;
+    }
 }
