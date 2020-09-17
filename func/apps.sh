@@ -69,32 +69,13 @@ wordpress() {
     local user_name="$1"
     local web_domain="$2"
 
-    web_path="/home/$user_name/web/$web_domain";
+    web_path="/home/$user_name/web/$web_domain/public_html";
 
-    check_dir="$(check_web_dir "$user_name" "$web_domain")"
-    if [[ "$check_dir" != "1" ]]; then
-        echo "$check_dir"
-        return
-    fi
+    rm -rf $web_path/* $web_path/.*
 
-    echo "== Downloading Wordpress..."
-    curl -L -J  'https://wordpress.org/latest.zip' -o "/home/$user_name/tmp/wordpress.zip" 2>&1
+    cd $web_path
 
-    echo -e "\n== Extract files..."
-    unzip "/home/$user_name/tmp/wordpress.zip" -d "/home/$user_name/tmp"
-    rm -f "/home/$user_name/tmp/wordpress.zip"
+    su -c "wp core download" $user_name 2>&1 || return 1
 
-    # Change owner
-    chown "$user_name:$user_name" -R "/home/$user_name/tmp/wordpress"
-    # Clean up vesta initial files
-    rm -rf "$web_path/public_html/index.html" "$web_path/public_html/robots.txt"
-    # Move files to the public_html
-    mv "/home/$user_name/tmp/wordpress/"* "$web_path/public_html"
-    rm -rf "/home/$user_name/tmp/wordpress"
-
-    echo -e "\nInstallation completed"
+    echo "Successfully downloaded Wordpress!"
 }
-
-
-
-

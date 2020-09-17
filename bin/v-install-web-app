@@ -13,16 +13,8 @@ if [[ ! "$app" || ! "$user_name" || ! "$web_domain" ]]; then
     exit 1
 fi
 
-check_dir="$(check_web_dir "$user_name" "$web_domain")"
-if [[ "$check_dir" != "1" ]]; then
-    echo "$check_dir"
-    exit 1
-fi
-
 if [[ "$app" == "wordpress" ]]; then
     wordpress "$user_name" "$web_domain"
-#elif [[ "$app" == "moodle" ]]; then
-#    moodle "$user_name" "$web_domain"
 else
     echo "Invalid app"
     exit 1
