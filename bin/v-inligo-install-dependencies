@@ -1,0 +1,17 @@
+#!/bin/bash
+
+source "$VESTA/plugins/vesta-inligo-apps/func/dependencies.sh"
+
+aws_access_key=$1
+aws_secret_key=$2
+
+if [[ ! "$aws_access_key" || ! "$aws_secret_key" ]]; then
+    echo "Error: invalid arguments."
+    echo "Usage: v-inligo-install-dependencies <aws_access_key> <aws_secret_key>"
+    exit 1
+fi
+
+install_aws_cli $aws_access_key $aws_secret_key
+install_wp_cli
+install_remote_backup
+install_web_templates

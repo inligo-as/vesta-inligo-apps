@@ -1,0 +1,32 @@
+#!/bin/bash
+
+PREFIX=$1
+USER=$2
+
+export PATH=/home/$USER/.local/bin:/usr/bin:/usr/local/bin:$PATH
+
+DATE=$(date '+%Y-%m-%d')
+BACKUP_DIR="/backup"
+LOG_DIR="/home/$USER/backups/server-backups/logs"
+S3_BUCKET="inligo-server-backups"
+FILENAMES=$(ls $BACKUP_DIR/*.$(echo $DATE)_*.tar) # All files from today
+LOG_FILE="$LOG_DIR/$DATE.log"
+
+mkdir -p $LOG_DIR
+
+aws --version > $LOG_FILE 2>&1 || ( cat $LOG_FILE; exit )
+
+for f in $FILENAMES
+do
+    the_user=$(echo $f | cut -d'.' -f1 | cut -d'/' -f3)
+    s3_path="s3://$S3_BUCKET/$PREFIX/$the_user"
+    s3_file=$(echo $f | cut -d'/' -f3)
+
+    echo "[$the_user] aws s3 cp $f $s3_path/$s3_file" >> $LOG_FILE
+    
+    aws s3 cp $f $s3_path/$s3_file >> $LOG_FILE 2>&1 || break
+    
+    echo "[$the_user] Done" >> $LOG_FILE
+done
+
+cat $LOG_FILE
