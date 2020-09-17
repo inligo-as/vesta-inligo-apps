@@ -7,3 +7,4 @@
 
 ![screenshot.png](screenshot.png)
 
+`sudo /usr/local/vesta/bin/v-backup-users && sleep 5 && /home/admin/downloads/server-scripts/upload_newest_backup.sh digitalocean_polyflor admin >/dev/null 2>&1`

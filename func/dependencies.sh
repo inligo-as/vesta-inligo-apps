@@ -73,8 +73,8 @@ function install_remote_backup() {
 function install_web_templates() {
     mkdir -p /home/admin/templates
     
-    cp $VESTA/plugins/vesta-inligo-apps/data/templates/security.txt.nginx.stpl /home/admin/templates/security.txt.stpl
-    cp $VESTA/plugins/vesta-inligo-apps/data/templates/web/nginx/* $VESTA/data/templates/web/nginx
+    cp $VESTA/plugins/vesta-inligo-apps/templates/security.txt.nginx.stpl /home/admin/templates/security.txt.stpl
+    cp $VESTA/plugins/vesta-inligo-apps/templates/web/nginx/* $VESTA/data/templates/web/nginx
 
     echo "Successfully installed vesta web templates!"
 }
