@@ -14,8 +14,11 @@ $session_user = $_SESSION['user'];
 ?>
 
 <div>
+    <?php if ($user === 'admin' && !$server_name) include_once("$plugin_dir/web/templates/install-dependencies.php"); // show this first if it hasn't been executed before ?>
+
     <?php if ($user === 'admin') include_once("$plugin_dir/web/templates/git.php"); ?>
     <?php if ($user === 'admin') include_once("$plugin_dir/web/templates/install-app.php"); ?>
     <?php if ($user === 'admin') include_once("$plugin_dir/web/templates/backup.php"); ?>
     <?php if ($session_user === 'admin') include_once("$plugin_dir/web/templates/nginx-port.php"); ?>
+    <?php if ($user === 'admin' && $server_name) include_once("$plugin_dir/web/templates/install-dependencies.php"); ?>
 </div>

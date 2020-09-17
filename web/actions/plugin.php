@@ -14,14 +14,6 @@ if (isset($_POST['action']) && $_POST['action'] == "install"
 ) {
     @include_once("$plugin_dir/web/actions/backup.php");
 
-} else if (isset($_POST['server']) 
-    && !empty($_POST['server']) 
-    && $user === 'admin'
-) {
-    $server = trim($_POST['server']);
-    $output = save_server_name($server);
-    Vesta::render_cmd_output($output, __("Setting server name"), $_SERVER['REQUEST_URI']);
-
 } else if (isset($_POST['action']) && $_POST['action'] == "set_application_port"
     && isset($_POST['web_domain']) && !empty($_POST['web_domain'])
     && isset($_POST['port']) && !empty($_POST['port'])
@@ -33,8 +25,21 @@ if (isset($_POST['action']) && $_POST['action'] == "install"
     && isset($_POST['source_path']) && !empty($_POST['source_path'])
 ) {
     @include_once("$plugin_dir/web/actions/git.php");
+
+} else if (isset($_POST['action']) && $_POST['action'] == "install_deps"
+    && isset($_POST['server']) && !empty($_POST['server'])
+    && isset($_POST['aws_access_key']) && !empty($_POST['aws_access_key'])
+    && isset($_POST['aws_secret_key']) && !empty($_POST['aws_secret_key'])
+){
+    @include_once("$plugin_dir/web/actions/dependencies.php");
+
+} else if (isset($_POST['server']) 
+    && !empty($_POST['server']) 
+    && $user === 'admin'
+) {
+    $server = trim($_POST['server']);
+    $output = save_server_name($server);
+    Vesta::render_cmd_output($output, __("Setting server name"), $_SERVER['REQUEST_URI']);
 } else {
     Vesta::render("/templates/plugin.php", ['plugin' => 'vesta-inligo-apps', 'data' => $data]);
 }
-
-?>
