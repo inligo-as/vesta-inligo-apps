@@ -14,6 +14,7 @@ function install_aws_cli() {
         mkdir -p ~/downloads
         cd ~/downloads
         curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+        unzip awscliv2.zip
         ./aws/install
         aws --version
     else
