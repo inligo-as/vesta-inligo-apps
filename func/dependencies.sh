@@ -78,3 +78,10 @@ function install_web_templates() {
 
     echo "Successfully installed vesta web templates!"
 }
+
+function install_vesta_packages() {
+    mv $VESTA/data/packages/default.pkg $VESTA/data/packages/default_bak.pkg
+    cp $VESTA/plugins/vesta-inligo-apps/templates/packages/* $VESTA/data/packages
+
+    echo "Successfully installed vesta user packages!"
+}

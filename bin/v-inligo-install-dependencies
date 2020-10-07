@@ -11,7 +11,13 @@ if [[ ! "$aws_access_key" || ! "$aws_secret_key" ]]; then
     exit 1
 fi
 
-install_aws_cli $aws_access_key $aws_secret_key
+if [[ "$aws_access_key" != "-" && "$aws_secret_key" != "-" ]]; then
+    install_aws_cli $aws_access_key $aws_secret_key
+else
+    echo "Skipping AWS-cli setup."
+fi
+
 install_wp_cli
 install_remote_backup
 install_web_templates
+install_vesta_packages
