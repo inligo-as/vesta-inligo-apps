@@ -19,3 +19,4 @@ echo "$conf" > $conf_file
 
 echo "Successfully saved config."
 echo "Now go to the domain settings and change nginx proxy."
+echo "<a href='/edit/web/?domain=$domain'>/edit/web/?domain=$domain</a>"
